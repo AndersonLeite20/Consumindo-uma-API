@@ -28,12 +28,12 @@ function criarBloco(dados) {
   root.appendChild(divConteiner)
 
 }
-async function mostrarSaldo() {
+async function getDados() {
   const jsonSever = 'http://localhost:3000/posts'
   const valores = await fetch(jsonSever).then(async function (respose) {
     return respose.json()
   }).catch((ret) => {
-    console.log('houve um erro')
+    console.log('falha na requisição')
   })
   valores.forEach(element => {
     criarBloco(element)
@@ -57,4 +57,4 @@ document.addEventListener('submit', async (ev) => {
   })
   const resposta = await enviarPost.json()
 })
-mostrarSaldo()
+getDados()
