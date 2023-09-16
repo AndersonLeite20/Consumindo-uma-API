@@ -9,9 +9,22 @@ function criarBloco(dados) {
 
   const valor = document.createElement('p')
   valor.classList.add('inputValorRoot')
-  valor.innerText = `Saldo: ${dados.valor}`
+  valor.innerText = `Valor: ${dados.valor}`
 
-  const inputEditar = document.createElement('inputEditar')
+
+  const divSaldo = document.createElement('div')
+  divSaldo.classList.add('divSaldo')
+
+  /*const saldo = document.createElement('label')
+  saldo.innerText = 'Saldo: '
+
+  const sapanSaldo = document.createElement('span')
+  sapanSaldo.classList.add('sapanSaldo')
+  sapanSaldo.innerText = 'xxx'
+
+  divSaldo.append(saldo, sapanSaldo)*/
+
+  const inputEditar = document.createElement('span')
   inputEditar.classList.add('inputEditar')
 
   const editar = document.createElement('button')
@@ -27,6 +40,30 @@ function criarBloco(dados) {
   divConteiner.append(label, valor, inputEditar, editar, deletar)
   root.appendChild(divConteiner)
 
+  //Atualizar 
+  document.querySelectorAll('.editar').forEach(function () {
+    document.addEventListener('click', async (bot) => {
+      let botaoAtualizar = bot.target
+      botaoAtualizar = botaoAtualizar.id
+      atualizarSaldo(botaoAtualizar)
+    })
+  })
+  //deletar
+  document.querySelectorAll('.deletar').forEach(function () {
+    document.addEventListener('click', async (bot) => {
+      let botaoAcionado = bot.target
+      botaoAcionado = botaoAcionado.id
+      deleteConta(parseInt(botaoAcionado))
+    })
+  })
+}
+async function deleteConta(id) {
+  const deletarConta = await fetch(`http://localhost:3000/posts${id}`, {
+    method: 'DELETE'
+  })
+
+  console.log(deletarConta)
+  // console.log(deletarConta)
 }
 async function getDados() {
   const jsonSever = 'http://localhost:3000/posts'
@@ -42,6 +79,7 @@ async function getDados() {
 }
 
 //DOMContentLoaded
+//Adicionar informação no BackEnd
 document.addEventListener('submit', async (ev) => {
   ev.preventDefault()
   const dados = {
